@@ -16,13 +16,15 @@ interface TopBarProps {
   onNotificationClick?: (eventId: string) => void;
   onClearNotifications?: () => void;
   onMarkRead?: () => void;
+  isMobile?: boolean;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({ 
   notifications = [], 
   onNotificationClick = () => {}, 
   onClearNotifications = () => {},
-  onMarkRead = () => {}
+  onMarkRead = () => {},
+  isMobile = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -51,7 +53,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   return (
-    <header className="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md px-8 flex items-center justify-between shrink-0 sticky top-0 z-30 transition-all duration-300 relative">
+    <header className={`border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center justify-between shrink-0 sticky top-0 z-30 transition-all duration-300 relative ${isMobile ? 'px-4 py-3 h-14' : 'h-16 px-8'}`}>
       <div className="flex items-center gap-6">
         {/* Branch Selector */}
         <button className="group flex items-center gap-3 pl-1 pr-4 py-1.5 rounded-full hover:bg-slate-50 transition-all border border-transparent hover:border-slate-200">

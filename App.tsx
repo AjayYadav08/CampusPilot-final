@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { TopBar, Notification } from './components/TopBar';
 import { MainDashboard } from './components/MainDashboard';
@@ -8,7 +8,8 @@ import { FullCalendarPage } from './components/FullCalendarPage';
 import { EventsPage, EVENTS_MOCK, CampusEvent } from './components/EventsPage';
 import { MiniFloatingCalendar } from './components/MiniFloatingCalendar';
 import { LoginPage } from './components/LoginPage';
-import { MessageSquareWarning, Ghost, ArrowRight, X, Radio, BellRing, Layout } from 'lucide-react';
+import { MessageSquareWarning, Ghost, ArrowRight, X, Radio, BellRing, Layout, Menu } from 'lucide-react';
+import { useResponsive } from './hooks/useResponsive';
 
 // Helper to strictly parse event dates for comparison
 const parseEventDate = (dateStr: string) => {
@@ -37,6 +38,10 @@ interface ToastItem {
 }
 
 const App: React.FC = () => {
+  // Responsive Design Hook
+  const responsive = useResponsive();
+  const [sidebarOpen, setSidebarOpen] = useState(!responsive.isMobile);
+
   const [activeTab, setActiveTab] = useState('Home');
   const [isMiniCalendarOpen, setIsMiniCalendarOpen] = useState(false);
   const [selectedGlobalDate, setSelectedGlobalDate] = useState<number | null>(null);
@@ -89,6 +94,10 @@ const App: React.FC = () => {
       setShowEventsSplash(true);
     } else {
       setActiveTab(tab);
+    }
+    // Close sidebar on mobile after navigation
+    if (responsive.isMobile) {
+      setSidebarOpen(false);
     }
   };
 
@@ -502,14 +511,34 @@ const App: React.FC = () => {
       `}} />
 
       {!isDetailsOpen && (
-        <Sidebar 
-          activeTab={activeTab} 
-          setActiveTab={handleTabChange} 
-          unopenedEventsCount={unopenedEventsCount}
-        />
+        <>
+          {/* Sidebar - Hidden on mobile, shown on tablet/desktop */}
+          {(responsive.isDesktop || responsive.isTablet || sidebarOpen) && (
+            <div className={`${responsive.isMobile ? 'fixed inset-0 z-40 bg-black/50' : ''}`} onClick={() => responsive.isMobile && setSidebarOpen(false)}>
+              <div onClick={(e) => e.stopPropagation()}>
+                <Sidebar 
+                  activeTab={activeTab} 
+                  setActiveTab={handleTabChange} 
+                  unopenedEventsCount={unopenedEventsCount}
+                />
+              </div>
+            </div>
+          )}
+          
+          {/* Mobile menu button */}
+          {responsive.isMobile && !sidebarOpen && (
+            <button 
+              onClick={() => setSidebarOpen(true)}
+              className="fixed top-6 left-6 z-30 bg-white p-2.5 rounded-lg shadow-lg border border-slate-200 lg:hidden"
+              title="Toggle Menu"
+            >
+              <Menu className="w-5 h-5 text-slate-600" />
+            </button>
+          )}
+        </>
       )}
       
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
+      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${responsive.isMobile && sidebarOpen ? 'hidden' : ''}`}>
         {!isDetailsOpen && (
           <TopBar 
             notifications={notifications}
@@ -523,15 +552,17 @@ const App: React.FC = () => {
             }}
             onClearNotifications={clearNotifications}
             onMarkRead={markNotificationsRead}
+            isMobile={responsive.isMobile}
           />
         )}
         
         <div className="flex flex-1 overflow-hidden">
-          <main className="flex-1 overflow-y-auto p-8 min-w-0 bg-[#f8fafc]/50 relative">
+          <main className={`flex-1 overflow-y-auto min-w-0 bg-[#f8fafc]/50 relative ${responsive.isMobile ? 'px-4 py-6' : 'p-8'}`}>
             {renderContent()}
           </main>
           
-          {activeTab === 'Home' && !isDetailsOpen && <RightPanel setActiveTab={handleTabChange} />}
+          {/* Right Panel - Hidden on mobile/tablet, shown on desktop */}
+          {activeTab === 'Home' && !isDetailsOpen && responsive.isDesktop && <RightPanel setActiveTab={handleTabChange} />}
         </div>
       </div>
 

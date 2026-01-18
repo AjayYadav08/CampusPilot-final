@@ -36,9 +36,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, unope
   ];
 
   return (
-    <aside className="w-64 border-r border-slate-200 bg-white flex flex-col h-full shrink-0 z-40">
+    <aside className="w-64 border-r border-slate-200 bg-white flex flex-col h-full shrink-0 z-40 max-h-screen overflow-hidden">
       {/* Brand Logo */}
-      <div className="p-7">
+      <div className="p-7 shrink-0">
         <div className="flex items-start space-x-3 mb-1">
           <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-xl shadow-blue-100 shrink-0 mt-1">
             <Layout className="w-5 h-5 text-white" />

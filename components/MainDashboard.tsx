@@ -89,32 +89,32 @@ export const MainDashboard: React.FC = () => {
   }, [selectedDay]);
 
   const renderSection = (title: string, sub: string, tasks: Task[], Icon: any) => (
-    <section className="mb-12 transition-all duration-500">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <div className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center mr-4 shadow-sm">
-            <Icon className="w-5 h-5 text-slate-500" />
+    <section className="mb-8 sm:mb-12 transition-all duration-500">
+      <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3 flex-wrap">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 sm:w-10 h-8 sm:h-10 bg-white border border-slate-100 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 shadow-sm">
+            <Icon className="w-4 sm:w-5 h-4 sm:h-5 text-slate-500" />
           </div>
-          <div>
-            <h2 className="text-base font-bold text-slate-800">{title}</h2>
-            <p className="text-xs text-slate-400 font-medium">{sub}</p>
+          <div className="min-w-0">
+            <h2 className="text-sm sm:text-base font-bold text-slate-800 truncate">{title}</h2>
+            <p className="text-xs text-slate-400 font-medium truncate">{sub}</p>
           </div>
         </div>
-        <div className="flex space-x-2">
-          <button className="p-2 border border-slate-100 rounded-lg bg-white text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all">
+        <div className="flex space-x-1 sm:space-x-2 shrink-0">
+          <button className="p-1.5 sm:p-2 border border-slate-100 rounded-lg bg-white text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all active:scale-95">
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <button className="p-2 border border-slate-100 rounded-lg bg-white text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all">
+          <button className="p-1.5 sm:p-2 border border-slate-100 rounded-lg bg-white text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all active:scale-95">
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
-      <div className="flex space-x-5 overflow-x-auto pb-4 no-scrollbar">
+      <div className="flex space-x-3 sm:space-x-5 overflow-x-auto pb-4 no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0">
         {tasks.length > 0 ? (
           tasks.map(task => <TaskCard key={task.id} task={task} />)
         ) : (
-          <div className="w-full py-12 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 rounded-3xl opacity-40">
-            <Sparkles className="w-8 h-8 mb-2" />
+          <div className="w-full py-8 sm:py-12 flex flex-col items-center justify-center border-2 border-dashed border-slate-100 rounded-2xl sm:rounded-3xl opacity-40">
+            <Sparkles className="w-6 sm:w-8 h-6 sm:h-8 mb-2" />
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400">No tasks for this date</p>
           </div>
         )}
@@ -123,32 +123,32 @@ export const MainDashboard: React.FC = () => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="w-full mx-auto space-y-6 sm:space-y-8">
       {/* Date Strip Header - Dark Theme */}
-      <div className="bg-[#09090b] p-4 rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between mb-4 px-2">
-          <div className="flex items-center gap-2">
-            <CalendarIcon className="w-4 h-4 text-blue-500" />
-            <h3 className="text-xs font-black text-white uppercase tracking-widest">Schedule Observer</h3>
+      <div className="bg-[#09090b] p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between mb-3 sm:mb-4 px-2 gap-2 flex-wrap">
+          <div className="flex items-center gap-2 min-w-0">
+            <CalendarIcon className="w-4 h-4 text-blue-500 shrink-0" />
+            <h3 className="text-xs font-black text-white uppercase tracking-widest truncate">Schedule Observer</h3>
           </div>
-          <span className="text-[10px] font-bold text-slate-500">JANUARY 2026</span>
+          <span className="text-[10px] font-bold text-slate-500 shrink-0">JAN 2026</span>
         </div>
         
-        <div className="flex gap-3 overflow-x-auto no-scrollbar py-2">
+        <div className="flex gap-2 sm:gap-3 overflow-x-auto no-scrollbar py-2 -mx-3 px-3 sm:mx-0 sm:px-0">
           {weekDates.map((item, idx) => (
             <button
               key={idx}
               onClick={() => setSelectedDay(item.date)}
-              className={`flex flex-col items-center min-w-[56px] py-3 rounded-2xl transition-all duration-300 ${
+              className={`flex flex-col items-center min-w-[48px] sm:min-w-[56px] py-2 sm:py-3 px-2 rounded-xl sm:rounded-2xl transition-all duration-300 ${
                 selectedDay === item.date 
                   ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-105' 
                   : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200'
               }`}
             >
-              <span className={`text-[9px] font-black uppercase tracking-tighter mb-1 ${selectedDay === item.date ? 'text-blue-100' : 'text-slate-500'}`}>
+              <span className={`text-[8px] sm:text-[9px] font-black uppercase tracking-tighter mb-0.5 ${selectedDay === item.date ? 'text-blue-100' : 'text-slate-500'}`}>
                 {item.dayName}
               </span>
-              <span className="text-sm font-bold">{item.date}</span>
+              <span className="text-xs sm:text-sm font-bold">{item.date}</span>
               {item.isToday && selectedDay !== item.date && (
                 <div className="w-1 h-1 bg-blue-600 rounded-full mt-1 shadow-[0_0_5px_rgba(37,99,235,0.8)]" />
               )}

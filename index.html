@@ -3,16 +3,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ffffff">
   <title>CampusPilot</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    input, textarea, button, select {
+      -webkit-user-select: text;
+      user-select: text;
+    }
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    html, body, #root {
+      width: 100%;
+      height: 100%;
+    }
+    /* Responsive Typography */
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
     }
     ::-webkit-scrollbar {
       width: 6px;
@@ -27,6 +54,17 @@
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #cbd5e1;
+    }
+    /* Improve touch targets on mobile */
+    @media (max-width: 768px) {
+      button, a, input {
+        min-height: 44px;
+        min-width: 44px;
+      }
+    }
+    /* Prevent horizontal scroll */
+    html, body {
+      overflow-x: hidden;
     }
   </style>
 <script type="importmap">
